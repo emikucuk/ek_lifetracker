@@ -1,0 +1,14 @@
+---
+description: TanStack Query data-fetching conventions
+globs: ["client/src/hooks/**", "client/src/api/**"]
+alwaysApply: false
+---
+
+# React Query
+
+- All server state via TanStack Query hooks in `hooks/`
+- Query keys: stable arrays, e.g. `["items"]`, `["items", id]`
+- Mutations invalidate related query keys on success
+- API functions live in `api/`; hooks call those functions
+- Surface errors with toasts; don't swallow failures
+- Don't duplicate server cache in Zustand

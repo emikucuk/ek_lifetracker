@@ -1,0 +1,16 @@
+---
+description: React + Chakra UI v2 patterns
+globs: ["client/**/*.{tsx,css}"]
+alwaysApply: false
+---
+
+# React + Chakra
+
+- Chakra UI v2 + Emotion (not Tailwind)
+- Theme tokens in `client/src/theme` (brand / ink / accent / canvas)
+- Global atmosphere + shells in `styles.css`
+- Form controls: reuse `components/ui/Field*` shells
+- Light theme by default for the main app
+- Destructive actions: inline confirm bubble, not modal/alert
+- Prefer composition over giant page components
+- Icons: `react-icons/fi`

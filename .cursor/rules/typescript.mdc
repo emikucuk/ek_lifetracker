@@ -1,0 +1,15 @@
+---
+description: TypeScript conventions for client and server
+globs: ["**/*.{ts,tsx}"]
+alwaysApply: false
+---
+
+# TypeScript
+
+- Strict TypeScript everywhere
+- Prefer `interface` for object shapes; unions for variants
+- Use `function` keyword for top-level helpers
+- Avoid `any`; use `unknown` + narrowing
+- Shared API types: mirror server payloads in `client/src/types`
+- Server ESM: use `.js` extensions in relative imports (tsx/NodeNext)
+- Don't over-memoize; follow existing React patterns in the repo

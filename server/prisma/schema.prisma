@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum EntryKind {
+  TASK
+  EVENT
+  DEADLINE
+  NOTE
+  REMINDER
+  IDEA
+  OTHER
+}
+
+enum EntryStatus {
+  OPEN
+  DONE
+  CANCELLED
+  ARCHIVED
+}
+
+enum EntryPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+model Category {
+  id         String      @id @default(cuid())
+  name       String      @unique
+  slug       String      @unique
+  color      String      @default("#1A4731")
+  icon       String?
+  isSystem   Boolean     @default(false)
+  archivedAt DateTime?
+  entries    LifeEntry[]
+  hints      ParseHint[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  @@index([archivedAt])
+}
+
+model ParseHint {
+  id         String     @id @default(cuid())
+  phrase     String
+  kind       EntryKind?
+  categoryId String?
+  category   Category?  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  source     String     @default("manual")
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  @@index([phrase])
+  @@index([categoryId])
+  @@index([kind])
+}
+
+enum RecurRule {
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+model LifeEntry {
+  id          String        @id @default(cuid())
+  rawText     String
+  title       String
+  notes       String?
+  kind        EntryKind     @default(NOTE)
+  status      EntryStatus   @default(OPEN)
+  priority    EntryPriority @default(NORMAL)
+  source      String        @default("panel")
+  dueAt       DateTime?
+  startsAt    DateTime?
+  endsAt      DateTime?
+  remindAt    DateTime?
+  completedAt DateTime?
+  parseMeta   String?
+  needsReview Boolean       @default(false)
+  recurRule   RecurRule?
+  deletedAt   DateTime?
+  categoryId  String?
+  category    Category?     @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([status])
+  @@index([kind])
+  @@index([dueAt])
+  @@index([startsAt])
+  @@index([remindAt])
+  @@index([categoryId])
+  @@index([createdAt])
+  @@index([needsReview])
+  @@index([deletedAt])
+}
+
+model AppSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}

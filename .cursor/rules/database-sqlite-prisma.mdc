@@ -1,0 +1,17 @@
+---
+description: SQLite + Prisma data layer conventions
+globs: ["**/prisma/**", "**/repositories/**", "**/lib/prisma.ts"]
+alwaysApply: false
+---
+
+# Database (SQLite + Prisma)
+
+- SQLite via Prisma for local-first apps
+- Schema changes: `npm run db:push` (or migrate when ready)
+- Always load root `.env` before Prisma CLI (`load-root-env.cjs`)
+- Repositories own all Prisma access
+- Use transactions for multi-step writes
+- Unique constraints for natural keys (e.g. externalId + type)
+- Index fields used in filters/sorts
+- Keep a simple settings key-value model if app needs config UI
+- Backup strategy: export JSON + optional GitHub push service

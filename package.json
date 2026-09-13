@@ -1,0 +1,25 @@
+{
+  "name": "ek-lifetracker",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w server\" \"npm run dev -w client\"",
+    "dev:server": "npm run dev -w server",
+    "dev:client": "npm run dev -w client",
+    "build": "npm run build -w client && npm run build -w server",
+    "db:generate": "npm run db:generate -w server",
+    "db:push": "npm run db:push -w server",
+    "dev-panel": "npm start --prefix dev-manager",
+    "dev-panel:install": "npm install --prefix dev-manager",
+    "dev-panel:setup": "npm run setup --prefix dev-manager",
+    "smoke": "npm run smoke -w server",
+    "setup": "powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/setup-new-device.ps1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

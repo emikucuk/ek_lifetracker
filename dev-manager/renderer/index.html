@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EK LifeTracker — Dev Panel</title>
+    <link rel="icon" type="image/png" href="../assets/icon.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="top-panel">
+      <header class="header">
+        <div class="brand">
+          <img class="brand-icon" src="../assets/icon.png" width="36" height="36" alt="" />
+          <div>
+            <h1>EK LifeTracker</h1>
+            <p>Dev Panel</p>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="btn-start-all" class="btn btn-primary">Tümünü başlat</button>
+          <button id="btn-stop" class="btn btn-danger" disabled>Tümünü durdur</button>
+          <button id="btn-clear" class="btn btn-ghost">Temizle</button>
+        </div>
+      </header>
+
+      <section class="commands-panel">
+        <div class="commands-group">
+          <span class="commands-label">Servisler</span>
+          <button id="btn-start-server" class="btn btn-small btn-ghost">Backend başlat</button>
+          <button id="btn-stop-server" class="btn btn-small btn-ghost" disabled>Backend durdur</button>
+          <button id="btn-restart-server" class="btn btn-small btn-ghost">Backend yeniden başlat</button>
+        </div>
+        <div class="commands-group">
+          <span class="commands-label">Frontend</span>
+          <button id="btn-start-client" class="btn btn-small btn-ghost">Frontend başlat</button>
+          <button id="btn-stop-client" class="btn btn-small btn-ghost" disabled>Frontend durdur</button>
+          <button id="btn-restart-client" class="btn btn-small btn-ghost">Frontend yeniden başlat</button>
+        </div>
+        <div class="commands-group">
+          <span class="commands-label">Görevler</span>
+          <button id="btn-db-push" class="btn btn-small btn-ghost">DB push</button>
+        </div>
+      </section>
+
+      <section class="status-grid">
+        <article class="status-card" id="card-backend">
+          <div class="status-head">
+            <span class="pill pill-backend">Backend</span>
+            <span class="port-label">:<span id="port-backend-num">3081</span></span>
+          </div>
+          <div class="status-row">
+            <span class="indicator" id="indicator-backend"></span>
+            <span class="status-text" id="text-backend">Kontrol ediliyor…</span>
+          </div>
+          <button class="btn btn-small btn-ghost" data-open="http://localhost:3081/api/health">
+            Health aç
+          </button>
+        </article>
+
+        <article class="status-card" id="card-frontend">
+          <div class="status-head">
+            <span class="pill pill-frontend">Frontend</span>
+            <span class="port-label">:<span id="port-frontend-num">5181</span></span>
+          </div>
+          <div class="status-row">
+            <span class="indicator" id="indicator-frontend"></span>
+            <span class="status-text" id="text-frontend">Kontrol ediliyor…</span>
+          </div>
+          <button class="btn btn-small btn-ghost" data-open="http://localhost:5181">
+            Uygulamayı aç
+          </button>
+        </article>
+
+        <article class="status-card" id="card-process">
+          <div class="status-head">
+            <span class="pill pill-system">Süreç</span>
+          </div>
+          <div class="status-row">
+            <span class="indicator" id="indicator-process"></span>
+            <span class="status-text" id="text-process">Boşta</span>
+          </div>
+          <div class="mini-actions">
+            <span class="mini-hint">Komutlar yukarıda</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="legend">
+        <span><i class="dot dot-backend"></i> Backend</span>
+        <span><i class="dot dot-frontend"></i> Frontend</span>
+        <span><i class="dot dot-system"></i> Sistem</span>
+        <span><i class="dot dot-error"></i> Hata</span>
+        <label class="autoscroll">
+          <input type="checkbox" id="autoscroll" checked />
+          Otomatik kaydır
+        </label>
+      </section>
+    </div>
+
+    <section class="log-panel">
+      <pre id="log-output" aria-live="polite"></pre>
+    </section>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+---
+description: Core monorepo architecture — always apply for this stack
+alwaysApply: true
+---
+
+# Project Architecture
+
+Stack: npm workspaces · Vite/React/Chakra · Express/Prisma/SQLite · TanStack Query + Router · Zustand
+
+## Layout
+
+```
+client/   UI only
+server/   API only
+dev-manager/  optional Electron panel
+.env      single root env file
+```
+
+## Server layers (strict)
+
+- `routes/` — HTTP + Zod parse. No Prisma.
+- `schemas/` — Zod only.
+- `repositories/` — Prisma only. No Express types.
+- `services/` — business logic + external APIs.
+- `errors/AppError` — typed HTTP errors.
+- `middleware/errorHandler` — last middleware.
+
+## Client layers (strict)
+
+- `api/client.ts` — generic fetch.
+- `api/*.ts` — endpoint wrappers.
+- `hooks/` — React Query. Server state lives here.
+- `store/` — Zustand for UI state only.
+- `components/ui/` — form primitives.
+- `pages/` — route screens.
+- `theme/` + `styles.css` — design tokens.
+
+## Do
+
+- Prefer small focused files.
+- Match existing naming and import style.
+- Use Turkish UI copy if the product is Turkish.
+- Keep CORS allowing localhost + optional `.ts.net`.
+
+## Don't
+
+- Don't put Prisma in routes.
+- Don't put React Query calls deep inside presentational components without hooks.
+- Don't invent a second env file under `server/` (root `.env` only).
+- Don't use `window.confirm` — use delete confirm bubble pattern.
+- Don't default to Tailwind; this stack uses Chakra UI v2.

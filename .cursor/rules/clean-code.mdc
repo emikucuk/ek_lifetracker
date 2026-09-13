@@ -1,0 +1,16 @@
+---
+description: Clean, maintainable code guidelines
+globs: ["**/*"]
+alwaysApply: false
+---
+
+# Clean Code
+
+- Named constants over magic numbers
+- Names reveal purpose; avoid cryptic abbreviations
+- Comments explain *why*, not *what*
+- One responsibility per function; keep functions small
+- DRY via shared helpers, not premature abstraction
+- Hide implementation behind clear interfaces
+- Prefer early returns over deep nesting
+- Fail fast with clear errors

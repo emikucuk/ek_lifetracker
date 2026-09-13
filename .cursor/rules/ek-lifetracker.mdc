@@ -1,0 +1,26 @@
+---
+description: Domain-specific agent notes for EK LifeTracker
+alwaysApply: true
+---
+
+# EK LifeTracker
+
+Personal life inbox: tasks, events, deadlines, notes — auto-parsed from Turkish natural language.
+
+## Product rules
+
+- Prefer auto-categorization via `EntryParserService`; user can override in panel
+- Voice/Siri path: `/api/voice/add?q=...&key=...` returns flat `{ ok, message, ... }`
+- System categories are seeded on boot; don't force the user to invent taxonomy
+- Ports: client **5181**, server **3081** (avoid clash with ek_watchlist)
+
+## Parse examples
+
+- "Bugün toplantı oldu" → EVENT, today
+- "Haftaya proje teslimi var" → DEADLINE, next week, category iş
+- "16 Eylül'e kadar X'e başvur" → DEADLINE, due Sep 16
+- "Bu hafta X görevini tamamla" → TASK, this week
+
+## Architecture
+
+Follow `.cursor/rules/project-architecture.mdc`. Domain models: `LifeEntry`, `Category`.

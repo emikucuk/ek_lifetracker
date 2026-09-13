@@ -1,0 +1,13 @@
+---
+description: TanStack Router conventions
+globs: ["client/src/router.tsx", "client/src/pages/**"]
+alwaysApply: false
+---
+
+# TanStack Router
+
+- File: `client/src/router.tsx` with `createRootRoute` + child routes
+- Root layout wraps `AppShell` + `<Outlet />`
+- Pages are route components under `pages/`
+- Keep route tree typed; export `router` for `RouterProvider`
+- Prefer path-based navigation; avoid ad-hoc window routing
