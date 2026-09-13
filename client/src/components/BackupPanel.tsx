@@ -73,9 +73,15 @@ export function BackupPanel() {
               result.bytesRaw && result.bytesZip
                 ? ` (${formatBytes(result.bytesRaw)} → ${formatBytes(result.bytesZip)})`
                 : ""
+            }${
+              result.gitPush
+                ? result.gitPush.ok
+                  ? ` · ${result.gitPush.skipped ? "push gerekmedi" : "GitHub’a push OK"}`
+                  : ` · push hata: ${result.gitPush.message}`
+                : ""
             }`,
-        status: result.ok ? "success" : "warning",
-        duration: 4000,
+        status: result.ok && result.gitPush?.ok !== false ? "success" : "warning",
+        duration: 5000,
       });
     } catch (error) {
       toast({
@@ -130,6 +136,25 @@ export function BackupPanel() {
               · Canlı kayıtlar DB’de kalır, silinmez · Aralık: {auto.intervalHours} saat ·
               gzip + ZIP
             </Text>
+            <HStack spacing={2} flexWrap="wrap" pt={1}>
+              <Badge colorScheme={auto.gitPush?.enabled ? "green" : "gray"}>
+                GitHub push {auto.gitPush?.enabled ? "açık" : "kapalı"}
+              </Badge>
+              {auto.gitPush?.enabled && (
+                <Text fontSize="xs" color="ink.400">
+                  {auto.gitPush.remote}/{auto.gitPush.branch}
+                  {auto.gitPush.lastAt
+                    ? ` · son: ${new Date(auto.gitPush.lastAt).toLocaleString("tr-TR")}`
+                    : ""}
+                  {auto.gitPush.lastMessage ? ` — ${auto.gitPush.lastMessage}` : ""}
+                </Text>
+              )}
+            </HStack>
+            {auto.gitPush?.lastOk === false && auto.gitPush.lastMessage && (
+              <Text fontSize="xs" color="red.500">
+                Push hatası: {auto.gitPush.lastMessage}
+              </Text>
+            )}
             {auto.recent.length > 0 && (
               <Text fontSize="xs" color="ink.400">
                 Son dosyalar:{" "}

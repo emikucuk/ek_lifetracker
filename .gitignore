@@ -7,3 +7,4 @@ dist/
 client/dist/
 server/dist/
 backups/
+.git-backup-worktree/

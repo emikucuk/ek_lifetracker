@@ -17,6 +17,8 @@ import { ZipArchive } from "archiver";
 import { env } from "../config/env.js";
 import { logger } from "../config/logger.js";
 import { backupService } from "./BackupService.js";
+import { backupGitPushService } from "./BackupGitPushService.js";
+import type { GitPushResult } from "./BackupGitPushService.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = resolve(__dirname, "../../..");
@@ -37,6 +39,7 @@ export interface AutoBackupResult {
   bytesZip: number;
   skipped?: boolean;
   message?: string;
+  gitPush?: GitPushResult;
 }
 
 export interface AutoBackupStatus {
@@ -49,6 +52,14 @@ export interface AutoBackupStatus {
   lastZipPath: string | null;
   lastJsonPath: string | null;
   recent: Array<{ name: string; mtime: string; size: number }>;
+  gitPush: {
+    enabled: boolean;
+    remote: string;
+    branch: string;
+    lastAt: string | null;
+    lastOk: boolean | null;
+    lastMessage: string | null;
+  };
 }
 
 function resolveBackupDir(): string {
@@ -145,6 +156,7 @@ export class AutoBackupService {
       lastZipPath: this.lastZipPath,
       lastJsonPath: this.lastZipPath,
       recent,
+      gitPush: backupGitPushService.meta,
     };
   }
 
@@ -270,6 +282,8 @@ export class AutoBackupService {
 
       await this.prune();
 
+      const gitPush = await backupGitPushService.pushZip(zipPath, reason);
+
       logger.info("Auto backup zip written", {
         reason,
         zipPath,
@@ -277,6 +291,7 @@ export class AutoBackupService {
         bytesRaw,
         bytesZip,
         dbIncluded,
+        gitPush: gitPush.message,
       });
 
       return {
@@ -289,6 +304,7 @@ export class AutoBackupService {
         entryCount: data.entries.length,
         bytesRaw,
         bytesZip,
+        gitPush,
       };
     } catch (error) {
       logger.error("Auto backup failed", {

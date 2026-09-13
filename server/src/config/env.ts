@@ -27,4 +27,8 @@ export const env = {
   autoBackupKeep: Number(process.env.AUTO_BACKUP_KEEP ?? 20),
   /** Absolute or project-root-relative. Default: <repo>/backups */
   autoBackupDir: process.env.AUTO_BACKUP_DIR ?? "",
+  /** After each successful zip, push to GitHub (dedicated branch via worktree). */
+  autoBackupGitPush: (process.env.AUTO_BACKUP_GIT_PUSH ?? "true").toLowerCase() !== "false",
+  autoBackupGitRemote: process.env.AUTO_BACKUP_GIT_REMOTE ?? "origin",
+  autoBackupGitBranch: process.env.AUTO_BACKUP_GIT_BRANCH ?? "backups",
 };

@@ -180,6 +180,14 @@ export function fetchAutoBackupStatus() {
     lastZipPath?: string | null;
     lastJsonPath: string | null;
     recent: Array<{ name: string; mtime: string; size: number }>;
+    gitPush: {
+      enabled: boolean;
+      remote: string;
+      branch: string;
+      lastAt: string | null;
+      lastOk: boolean | null;
+      lastMessage: string | null;
+    };
   }>("/api/backup/auto/status");
 }
 
@@ -197,6 +205,13 @@ export function runAutoBackupNow() {
     bytesZip?: number;
     skipped?: boolean;
     message?: string;
+    gitPush?: {
+      ok: boolean;
+      skipped?: boolean;
+      message: string;
+      remote?: string;
+      branch?: string;
+    };
   }>("/api/backup/auto/now");
 }
 

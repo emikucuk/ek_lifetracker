@@ -119,6 +119,9 @@ Kökteki `.env` dosyasını düzenle (örnek alanlar `.env.example` içinde):
 | `AUTO_BACKUP_INTERVAL_HOURS` | Aralık (saat) | `6` |
 | `AUTO_BACKUP_KEEP` | Tutulan zip sayısı | `20` |
 | `AUTO_BACKUP_DIR` | İsteğe bağlı yol | `backups` |
+| `AUTO_BACKUP_GIT_PUSH` | Yedekten sonra GitHub push | `true` |
+| `AUTO_BACKUP_GIT_REMOTE` | Git remote | `origin` |
+| `AUTO_BACKUP_GIT_BRANCH` | Push dalı (ayrı dal) | `backups` |
 
 > SMTP bilgileri `.env`’de değildir. **Ayarlar → E-posta** panelinden girilir (veritabanına yazılır).
 
@@ -321,7 +324,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup-new-device.p
 - `.env` ve `dev.db` **kişisel arşiv** — public repoya koyma  
 - `VOICE_API_KEY` paylaşılmamalı  
 - E-posta SMTP şifresi panelde saklanır; cihaz paylaşımında dikkat  
-- `backups/` gitignore’da; diskte / OneDrive’da kalsın  
+- `backups/` gitignore’da (yerel); GitHub’a **`backups` dalı** ile push edilir (`AUTO_BACKUP_GIT_PUSH`)
+- Repo **private** olmalı — zip içinde kişisel hayat verisi var
 
 ---
 
